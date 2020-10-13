@@ -1,3 +1,15 @@
+d3.csv('wealth-health-2014.csv', d=>{
+    return {
+        ...d,
+    Income: +d.Income,
+    Population: +d.Population,
+    LifeExpectancy: +d.LifeExpectancy
+    }
+}).then(data=>{
+    Data = data
+    console.log('wealth', data);
+})
+
 const margin = {top:20, left:20, bottom:20, right:20};
 const width = 400-margin.left- margin.right;
 const height = 300-margin.top- margin.bottom;
