@@ -17,7 +17,8 @@ const colorScale = d3.scaleSequential(d3.interpolateBlues)
     .domain(d3.extent(data, d=>d.Income));
 
 
-const xAxis = d3.axisBottom(xScale);
+const xAxis = d3.axisBottom()
+    .scale(incomeScale)
     .ticks(5, 's');
 
 svg.append('g')
