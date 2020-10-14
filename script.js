@@ -107,7 +107,7 @@ svg.selectAll('.chart')
     });
 
 const legend = svg.selectAll(".legend")
-    .data([incomeMin, incomeMax])
+    .data(colorScale.domain())
     .enter()
     .append('rect')
     .attr('y', (d,i) => i * 24 + 407)
