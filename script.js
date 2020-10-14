@@ -89,7 +89,7 @@ svg.selectAll('.chart')
     
     .on("mouseenter", (event, d) => {
         const pos = d3.pointer(event, window);
-        d3.select(".tooltop")
+        d3.select(".tooltip")
             .style('display', 'block')
             .style("left", pos[0] + 40 + "px")
             .style("top", pos[1] + 40 + "px")
@@ -110,7 +110,7 @@ const legend = svg.selectAll(".legend")
     .data([incomeMin, incomeMax])
     .enter()
     .append('rect')
-    .attr('y', (d,i) => i * 24 +450)
+    .attr('y', (d,i) => i * 24 + 407)
     .attr('x', 370)
     .attr("width", 15)
     .attr("height", 15)
@@ -121,7 +121,7 @@ svg.selectAll("labels")
     .data(colorScale.domain())
     .enter()
     .append('text')
-    .attr('y', (d,i) => i * 24 +460)
+    .attr('y', (d,i) => i * 24 + 420)
     .attr('x', 400)
     .text(function(d) {
         return d;
