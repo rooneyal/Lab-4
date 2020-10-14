@@ -4,7 +4,7 @@ d3.csv('wealth-health-2014.csv', d3.autoType).then(data=>{
     data = data.sort((a,b)=>b.income-a.income);
 
 const margin = {top:75, left:75, bottom:75, right:75};
-const width = 700-margin.left- margin.right;
+const width = 1000-margin.left- margin.right;
 const height = 800-margin.top- margin.bottom;
 
 const svg = d3.select('.chart').append('svg')
@@ -62,7 +62,7 @@ svg.append("text")
     .attr("font-size", "13px")
 
 svg.append("text")
-    .attr('x', width - margin.left - margin.right - 420)
+    .attr('x', width - margin.left - margin.right - 710)
     .attr('y', height - 740)
     .attr('text-anchor', 'font')
     .text("Life Expectancy")
@@ -92,7 +92,8 @@ svg.selectAll('.chart')
         d3.select(".tooltip")
             .style('display', 'inline-block')
             .style('position', 'fixed')
-            .style("background-color", "lightblue")
+            .style("background-color", "black")
+            .style("color", "white")
             .style("left", pos[0] + 40 + "px")
             .style("top", pos[1] + 40 + "px")
             .html(
@@ -112,8 +113,8 @@ const legend = svg.selectAll(".legend")
     .data(colorScale.domain())
     .enter()
     .append('rect')
-    .attr('y', (d,i) => i * 24 + 407)
-    .attr('x', 370)
+    .attr('y', (d,i) => i * 24 + 408)
+    .attr('x', 575)
     .attr("width", 15)
     .attr("height", 15)
     .attr('stroke', d=>colorScale(d))
@@ -124,7 +125,7 @@ svg.selectAll("labels")
     .enter()
     .append('text')
     .attr('y', (d,i) => i * 24 + 420)
-    .attr('x', 400)
+    .attr('x', 600)
     .text(function(d) {
         return d;
     });
