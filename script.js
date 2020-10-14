@@ -62,7 +62,7 @@ svg.append("text")
     .attr("font-size", "13px")
 
 svg.append("text")
-    .attr('x', width - margin.left - margin.right - 450)
+    .attr('x', width - margin.left - margin.right - 420)
     .attr('y', height - 740)
     .attr('text-anchor', 'font')
     .text("Life Expectancy")
@@ -90,7 +90,9 @@ svg.selectAll('.chart')
     .on("mouseenter", (event, d) => {
         const pos = d3.pointer(event, window);
         d3.select(".tooltip")
-            .style('display', 'block')
+            .style('display', 'inline-block')
+            .style('position', 'fixed')
+            .style("background-color", "lightblue")
             .style("left", pos[0] + 40 + "px")
             .style("top", pos[1] + 40 + "px")
             .html(
