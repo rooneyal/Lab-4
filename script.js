@@ -18,14 +18,14 @@ const incomeMin = d3.min(data, d=>d.Income),
 
 const incomeScale = d3.scaleLinear()
     .domain([incomeMin, incomeMax])
-    .range([0, width]);
+    .range([margin.left, width]);
 
 const LifeExpectancyMin = d3.min(data, d=>d.LifeExpectancy), 
       LifeExpectancyMax = d3.max(data, d=>d.LifeExpectancy);
 
 const LifeExpectancyScale = d3.scaleLinear()
   .domain([LifeExpectancyMin, LifeExpectancyMax])
-  .range([0, width]);
+  .range([height - margin.top, 0]);
 
 const PopulationMin = d3.min(data, d=>d.Population), 
       PopulationMax = d3.max(data, d=>d.Population);
@@ -34,14 +34,13 @@ const PopulationScale = d3.scaleLinear()
 .domain([PopulationMin, PopulationMax])
 .range([6, 36]);
 
-
 const xAxis = d3.axisBottom()
     .scale(incomeScale)
     .ticks(5, 's');
  
 svg.append('g')
     .attr("class", "axis x-axis")
-    .attr("transform", `translate(0, ${height})`)
+    .attr("transform", `translate(0, ${height - margin.bottom})`)
     .call(xAxis);
 
 const yAxis = d3.axisLeft()
@@ -50,8 +49,20 @@ const yAxis = d3.axisLeft()
 
 svg.append('g')
     .attr("class", "axis y-axis")
-    .attr("transform", `translate(0)`)
+    .attr("transform", `translate(${margin.left}, 0)`)
     .call(yAxis);
+
+svg.append("text")
+    .attr('x', width - margin.left - margin.right + 70)
+    .attr('y', height + margin.top + margin.bottom - 80)
+    .text("Income")
+    .attr("font-weight", function(d,i) {
+        return i * 100
+    })
+    .attr("font-size", "13px")
+    
+
+
 
 const colorScale = d3.scaleOrdinal([incomeMin, incomeMax])
     .range(d3.schemeTableau10);
@@ -60,12 +71,51 @@ svg.selectAll('.chart')
     .data(data)
     .enter()
     .append('circle')
-    .attr('fill', d=>colorScale(d.Income))
+    .attr('fill', d=>colorScale(d.Region))
     .attr('stroke', 'black')
     .attr('opacity', .8)
     .attr('r', d=>PopulationScale(d.Population))
     .attr('cy', d=>LifeExpectancyScale(d.LifeExpectancy))
-    .attr('cx', d=>incomeScale(d.Income));
+    .attr('cx', d=>incomeScale(d.Income))
+    
+    .on("mouseenter", (event, d) => {
+        const pos = d3.pointer(event, window);
+        d3.select(".tooltop")
+            .style('display', 'block')
+            .style("left", pos[0] + 40 + "px")
+            .style("top", pos[1] + 40 + "px")
+            .html(
+                "Country: " + d.Country + "<br>" +
+                "Region: " + d.Region + "<br>" +
+                "Population: " + d.Population + "<br>" +
+                "Income: " + d.Income + "<br>" +
+                "Life Expectancy: " + d.LifeExpectancy)
+        })
 
+    .on("mouseleave", (event, d) => {
+        d3.select('.tooltip')
+            .style('display', 'none')
+    });
+
+const legend = svg.selectAll(".legend")
+    .data([incomeMin, incomeMax])
+    .enter()
+    .append('rect')
+    .attr('y', (d,i) => i * 24 +450)
+    .attr('x', 370)
+    .attr("width", 15)
+    .attr("height", 15)
+    .attr('stroke', d=>colorScale(d))
+    .attr('fill', d=>colorScale(d))
+
+svg.selectAll("labels")
+    .data(colorScale.domain())
+    .enter()
+    .append('text')
+    .attr('y', (d,i) => i * 24 +460)
+    .attr('x', 400)
+    .text(function(d) {
+        return d;
+    });
 
 })
