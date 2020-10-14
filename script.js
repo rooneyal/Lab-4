@@ -53,15 +53,24 @@ svg.append('g')
     .call(yAxis);
 
 svg.append("text")
-    .attr('x', width - margin.left - margin.right + 70)
-    .attr('y', height + margin.top + margin.bottom - 80)
+    .attr('x', width - margin.left - margin.right + 120)
+    .attr('y', height + margin.top + margin.bottom - 230)
     .text("Income")
     .attr("font-weight", function(d,i) {
         return i * 100
     })
     .attr("font-size", "13px")
-    
 
+svg.append("text")
+    .attr('x', width - margin.left - margin.right - 450)
+    .attr('y', height - 740)
+    .attr('text-anchor', 'font')
+    .text("Life Expectancy")
+    .attr("transform", d => "rotate(90)")
+    .attr("font-size", "13px")
+    .attr("font-weight", function(d,i) {
+        return i * 100
+    })
 
 
 const colorScale = d3.scaleOrdinal([incomeMin, incomeMax])
