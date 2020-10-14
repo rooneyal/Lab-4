@@ -32,7 +32,7 @@ const PopulationMin = d3.min(data, d=>d.Population),
 
 const PopulationScale = d3.scaleLinear()
 .domain([PopulationMin, PopulationMax])
-.range([0, width]);
+.range([6, 36]);
 
 
 const xAxis = d3.axisBottom()
@@ -43,19 +43,18 @@ svg.append('g')
     .attr("class", "axis x-axis")
     .attr("transform", `translate(0, ${height})`)
     .call(xAxis);
-    
+
 const yAxis = d3.axisLeft()
     .scale(LifeExpectancyScale)
     .ticks(5, 's');
 
 svg.append('g')
     .attr("class", "axis y-axis")
-    .attr("transform", '0, translate(${width})')
+    .attr("transform", `translate(0)`)
     .call(yAxis);
 
-
-const colorScale = d3.scaleSequential(d3.interpolateBlues)
-    .domain([incomeMin, incomeMax]);
+const colorScale = d3.scaleOrdinal([incomeMin, incomeMax])
+    .range(d3.schemeTableau10);
 
 svg.selectAll('.chart')
     .data(data)
@@ -63,7 +62,8 @@ svg.selectAll('.chart')
     .append('circle')
     .attr('fill', d=>colorScale(d.Income))
     .attr('stroke', 'black')
-    .attr('r', 5)
+    .attr('opacity', .8)
+    .attr('r', d=>PopulationScale(d.Population))
     .attr('cy', d=>LifeExpectancyScale(d.LifeExpectancy))
     .attr('cx', d=>incomeScale(d.Income));
 
